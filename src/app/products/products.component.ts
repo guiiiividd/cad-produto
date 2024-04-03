@@ -12,6 +12,9 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
 
   formGroupProduct: FormGroup;
+
+  isEditing = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private service: ProductService
@@ -30,14 +33,36 @@ export class ProductsComponent implements OnInit {
   }
 
   save() {
-    this.service.save(this.formGroupProduct.value).subscribe({
-      next: (data) => this.products.push(data),
-    });
+    if (this.isEditing) {
+      this.service.update(this.formGroupProduct.value).subscribe({
+        next: () => {
+          this.loadProducts();
+          this.isEditing = false;
+        },
+      });
+    } else {
+      this.service.save(this.formGroupProduct.value).subscribe({
+        next: (data) => this.products.push(data),
+      });
+    }
+
+    this.formGroupProduct.reset();
   }
 
   loadProducts() {
     this.service.getProducts().subscribe({
       next: (data) => (this.products = data),
     });
+  }
+
+  delete(product: Product) {
+    this.service.delete(product).subscribe({
+      next: () => this.loadProducts(),
+    });
+  }
+
+  edit(product: Product) {
+    this.formGroupProduct.setValue(product);
+    this.isEditing = true;
   }
 }

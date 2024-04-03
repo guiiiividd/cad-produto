@@ -1,3 +1,11 @@
 {
-  "products": []
+  "products": [
+    {
+      "id": 2,
+      "name": "Teclado Gigabyte",
+      "description": "Teclado Gamer RGB",
+      "price": 150,
+      "quantity": 3
+    }
+  ]
 }

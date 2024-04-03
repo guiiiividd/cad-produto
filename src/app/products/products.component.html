@@ -10,18 +10,7 @@
           </div>
         </div>
         <div class="row mb-3">
-          <div class="col-3">
-            <div>
-              <label for="inputID" class="form-label">ID</label>
-              <input
-                type="text"
-                class="form-control"
-                id="inputID"
-                formControlName="id"
-              />
-            </div>
-          </div>
-          <div class="col-9">
+          <div class="col">
             <div>
               <label for="inputNome" class="form-label">Nome</label>
               <input
@@ -95,6 +84,7 @@
             <th scope="col">Descrição</th>
             <th scope="col">Preço</th>
             <th scope="col">Quantidade</th>
+            <th>Opções</th>
           </tr>
         </thead>
         <tbody>
@@ -104,6 +94,10 @@
             <td>{{ product.description }}</td>
             <td>{{ product.price }}</td>
             <td>{{ product.quantity }}</td>
+            <td>
+              <button type="submit" class="btn btn-danger me-2" (click)="delete(product)">Remover</button>
+              <button type="submit" class="btn btn-primary" (click)="edit(product)">Alterar</button>
+            </td>
           </tr>
         </tbody>
       </table>
