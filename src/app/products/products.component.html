@@ -19,6 +19,16 @@
                 id="inputNome"
                 formControlName="name"
               />
+              <small
+                class="text-danger"
+                *ngIf="submitted && name.hasError('minlength')"
+                >* O nome tem que ter no mínimo 3 caracteres!</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="submitted && name.hasError('required')"
+                >* O nome é requerido!</small
+              >
             </div>
           </div>
         </div>
@@ -32,6 +42,16 @@
               rows="3"
               formControlName="description"
             ></textarea>
+            <small
+              class="text-danger"
+              *ngIf="submitted && description.hasError('minlength')"
+              >* A descrição tem que ter no mínimo 15 caracteres!</small
+            >
+            <small
+              class="text-danger"
+              *ngIf="submitted && description.hasError('required')"
+              >* A descrição é requerida!</small
+            >
           </div>
         </div>
 
@@ -45,6 +65,16 @@
                 id="inputPreco"
                 formControlName="price"
               />
+              <small
+                class="text-danger"
+                *ngIf="submitted && price.hasError('min')"
+                >* O valor minímo para preço é 0!</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="submitted && price.hasError('required')"
+                >* O preço é requerido!</small
+              >
             </div>
           </div>
           <div class="col-6">
@@ -56,6 +86,16 @@
                 id="inputQuantidade"
                 formControlName="quantity"
               />
+              <small
+                class="text-danger"
+                *ngIf="submitted && quantity.hasError('min')"
+                >* O valor minímo para quantidade é 0!</small
+              >
+              <small
+                class="text-danger"
+                *ngIf="submitted && quantity.hasError('required')"
+                >* A quantidade é requerida!</small
+              >
             </div>
           </div>
         </div>
@@ -95,8 +135,20 @@
             <td>{{ product.price }}</td>
             <td>{{ product.quantity }}</td>
             <td>
-              <button type="submit" class="btn btn-danger me-2" (click)="delete(product)">Remover</button>
-              <button type="submit" class="btn btn-primary" (click)="edit(product)">Alterar</button>
+              <button
+                type="submit"
+                class="btn btn-danger me-2"
+                (click)="delete(product)"
+              >
+                Remover
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="edit(product)"
+              >
+                Alterar
+              </button>
             </td>
           </tr>
         </tbody>

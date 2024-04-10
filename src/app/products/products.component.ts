@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../Product';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../product.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class ProductsComponent implements OnInit {
   formGroupProduct: FormGroup;
 
   isEditing = false;
+  submitted = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -21,10 +22,10 @@ export class ProductsComponent implements OnInit {
   ) {
     this.formGroupProduct = formBuilder.group({
       id: [''],
-      name: [''],
-      description: [''],
-      price: [''],
-      quantity: [''],
+      name: ['', [Validators.minLength(3), Validators.required]],
+      description: ['', [Validators.minLength(15), Validators.required]],
+      price: ['', [Validators.min(0), Validators.required]],
+      quantity: ['', [Validators.min(0), Validators.required]],
     });
   }
 
@@ -33,20 +34,26 @@ export class ProductsComponent implements OnInit {
   }
 
   save() {
-    if (this.isEditing) {
-      this.service.update(this.formGroupProduct.value).subscribe({
-        next: () => {
-          this.loadProducts();
-          this.isEditing = false;
-        },
-      });
-    } else {
-      this.service.save(this.formGroupProduct.value).subscribe({
-        next: (data) => this.products.push(data),
-      });
+    this.submitted = true;
+    if (this.formGroupProduct.valid) {
+      if (this.isEditing) {
+        this.service.update(this.formGroupProduct.value).subscribe({
+          next: () => {
+            this.loadProducts();
+            this.isEditing = false;
+            this.submitted = false;
+          },
+        });
+      } else {
+        this.service.save(this.formGroupProduct.value).subscribe({
+          next: (data) => {
+            this.products.push(data);
+            this.submitted = false;
+          },
+        });
+      }
+      this.formGroupProduct.reset();
     }
-
-    this.formGroupProduct.reset();
   }
 
   loadProducts() {
@@ -64,5 +71,21 @@ export class ProductsComponent implements OnInit {
   edit(product: Product) {
     this.formGroupProduct.setValue(product);
     this.isEditing = true;
+  }
+
+  get name(): any {
+    return this.formGroupProduct.get('name');
+  }
+
+  get description(): any {
+    return this.formGroupProduct.get('description');
+  }
+
+  get price(): any {
+    return this.formGroupProduct.get('price');
+  }
+
+  get quantity(): any {
+    return this.formGroupProduct.get('quantity');
   }
 }

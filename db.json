@@ -6,6 +6,13 @@
       "description": "Teclado Gamer RGB",
       "price": 150,
       "quantity": 3
+    },
+    {
+      "id": 3,
+      "name": "Monitor Samsung OLED 29\"",
+      "description": "Monitor Samsung OLED 29\"",
+      "price": 2000,
+      "quantity": 100
     }
   ]
 }
